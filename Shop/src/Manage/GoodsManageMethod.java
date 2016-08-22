@@ -3,13 +3,16 @@ package Manage;
 import java.util.ArrayList;
 
 import Entity.Goods;
+import Entity.ShopCart;
 import Entity.User;
 import Service.GoodsDB;
+import Service.ShopCartDB;
 import Service.UserDB;
 
 public class GoodsManageMethod {
 	GoodsDB gdb = new GoodsDB();
 	UserDB udb = new UserDB();
+	ShopCartDB scdb = new ShopCartDB();
 
 	public ArrayList<String> selectGoodsMethod_Seller(int selName) {
 		ArrayList<Goods> list = new ArrayList<Goods>();
@@ -142,6 +145,7 @@ public class GoodsManageMethod {
 
 	public void delGoodsMethod(int goodId) {
 		ArrayList<Goods> list = new ArrayList<Goods>();
+		ArrayList<ShopCart> listShopCart = new ArrayList<>();
 		list = gdb.getAllGoods();
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getId() == goodId) {
@@ -150,5 +154,13 @@ public class GoodsManageMethod {
 			}
 		}
 		gdb.setAllGoods(list);
+		listShopCart = scdb.getAllShopCar();
+		for (int i = 0; i < listShopCart.size(); i++) {
+			if (listShopCart.get(i).getGoodId() == goodId) {
+				listShopCart.remove(i);
+				i--;
+			}
+		}
+		scdb.setAllShopCar(listShopCart);
 	}
 }

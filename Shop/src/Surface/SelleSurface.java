@@ -21,7 +21,7 @@ public class SelleSurface {
 		System.out.println("检测到卖家\n是否开启卖家模式（y/n）");
 		sel_b = in.next();
 		while ((!sel_b.equals("y")) && (!sel_b.equals("n"))) {
-			System.out.println("你眼神不好吗");
+			System.out.println("输入错误，请重新输入");
 			System.out.print("检测到卖家\n是否开启卖家模式（y/n）");
 			sel_b = in.next();
 		}
@@ -33,8 +33,8 @@ public class SelleSurface {
 
 	public int sellerManage() {
 		System.out.println("-------------------------------------------------------");
-		System.out.println("多选题：\t1.东西上架\t\t2.翻箱倒柜\t\t3.调整库房\t\t4.东西下架\t\t5.变身\t\t0.逃学");
-		System.out.print("你要干什么：");
+		System.out.println("选项：\t1.添加商品\t\t2.查询商品\t\t3.调整商品\t\t4.删除商品\t\t5.退出登入\t\t0.退出");
+		System.out.print("请选择：");
 		optNum = in.nextInt();
 		switch (optNum) {
 		case 1:
@@ -64,7 +64,7 @@ public class SelleSurface {
 		double price;
 		String category;
 		System.out.println("-------------------------------------------------------");
-		System.out.println("啥东西就要上架啊：");
+		System.out.println("请输入商品信息：");
 		System.out.print("名称：");
 		name = in.next();
 		System.out.print("数量：");
@@ -74,12 +74,12 @@ public class SelleSurface {
 		System.out.print("类别：");
 		category = in.next();
 		gm.addGoods(name, stock, price, category, user.getId());
-		System.out.println("先扔仓库里了");
+		System.out.println("添加成功");
 	}
 
 	public void selGoods() {
 		ArrayList<String> list = new ArrayList<>();
-		System.out.println("你所有的家当：");
+		System.out.println("你拥有的商品：");
 		list = gm.selGoods(user.getId());
 		for (String goodsList : list)
 			System.out.println(goodsList);
@@ -90,33 +90,30 @@ public class SelleSurface {
 		String wan_b; // 是否正确
 		String con_b; // 是否继续
 		System.out.println("-------------------------------------------------------");
-		System.out.println("你又弄啥幺蛾子");
-		System.out.print("哪个东西你要：");
+		System.out.print("请输入要修改的商品编号：");
 		chg_num = in.nextInt();
 		String goodInfo = gm.getGoodInfo(chg_num, user.getId());
 		if (goodInfo == null) {
-			System.out.println("你看看你有这东西吗");
+			System.out.println("此商品不存在或非你所有");
 			return;
 		} else
 			System.out.println(goodInfo);
-		System.out.print("就这个？（y/n）  ");
+		System.out.print("是否正确？（y/n）  ");
 		wan_b = in.next();
 		while ((!wan_b.equals("y")) && (!wan_b.equals("n"))) {
-			System.out.println("你眼神不好吗");
-			System.out.print("就这个？（y/n）");
+			System.out.println("输入错误，请重新输入");
+			System.out.print("是否正确？（y/n）");
 			wan_b = in.next();
 		}
 		if (wan_b.equals("y")) {
 			gm.chgGoods(chg_num);
-			System.out.println("完事了");
-		} else {
-			System.out.println("你这人真墨迹");
+			System.out.println("修改完成");
 		}
-		System.out.print("还弄不了?（y/n）");
+		System.out.print("是否继续?（y/n）");
 		con_b = in.next();
 		while ((!con_b.equals("y")) && (!con_b.equals("n"))) {
-			System.out.println("你眼神不好吗");
-			System.out.print("还弄不了?（y/n）");
+			System.out.println("输入错误，请重新输入");
+			System.out.print("是否继续?（y/n）");
 			con_b = in.next();
 		}
 		if (con_b.equals("y")) {
@@ -129,32 +126,30 @@ public class SelleSurface {
 		String wan_b; // 是否正确
 		String con_b; // 是否继续
 		System.out.println("-------------------------------------------------------");
-		System.out.print("啥东西不要了：");
+		System.out.print("请输入要删除的商品编号：");
 		del_num = in.nextInt();
 		String goodInfo = gm.getGoodInfo(del_num, user.getId());
 		if (goodInfo == null) {
-			System.out.println("你看看你有这东西吗");
+			System.out.println("此商品不存在或非你所有");
 			return;
 		} else
 			System.out.println(goodInfo);
-		System.out.print("就这个？（y/n）  ");
+		System.out.print("是否正确？（y/n）  ");
 		wan_b = in.next();
 		while ((!wan_b.equals("y")) && (!wan_b.equals("n"))) {
-			System.out.println("你眼神不好吗");
-			System.out.print("就这个？（y/n）");
+			System.out.println("输入错误，请重新输入");
+			System.out.print("是否正确？（y/n）");
 			wan_b = in.next();
 		}
 		if (wan_b.equals("y")) {
 			gm.delGoods(del_num);
-			System.out.println("扔了");
-		} else {
-			System.out.println("你这人真墨迹");
+			System.out.println("删除成功");
 		}
-		System.out.print("还扔啥不（y/n）");
+		System.out.print("是否继续（y/n）");
 		con_b = in.next();
 		while ((!con_b.equals("y")) && (!con_b.equals("n"))) {
-			System.out.println("你眼神不好吗");
-			System.out.print("还扔啥不（y/n）");
+			System.out.println("输入错误，请重新输入");
+			System.out.print("是否继续（y/n）");
 			con_b = in.next();
 		}
 		if (con_b.equals("y")) {

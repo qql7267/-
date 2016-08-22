@@ -14,6 +14,10 @@ public class Goods {
 	// …Ã∆∑πÈ Ù’ﬂ±‡∫≈
 	private int ownerId;
 
+	public Goods() {
+
+	}
+
 	public Goods(int id, String name, int stock, double price, String category, int ownerId) {
 		this.id = id;
 		this.name = name;

@@ -3,13 +3,16 @@ package Manage;
 import java.util.ArrayList;
 
 import Entity.Goods;
+import Entity.ShopCart;
 import Entity.User;
 import Service.GoodsDB;
+import Service.ShopCartDB;
 import Service.UserDB;
 
 public class UserManageMethod {
 	UserDB udb = new UserDB();
 	GoodsDB gdb = new GoodsDB();
+	ShopCartDB scdb = new ShopCartDB();
 
 	// 核实用户名和密码的方法---0未找到---1密码不对---2正确
 	public int verifyMethod(String unm, String pwd) {
@@ -64,7 +67,7 @@ public class UserManageMethod {
 				if (user.getAdmin() == 2)
 					admin = "卖家";
 				if (user.getAdmin() == 3)
-					admin = "赵日天";
+					admin = "管理员";
 				return "编号：" + user.getId() + "\t用户名：" + user.getUnm() + "\t\t密码：" + user.getPwd() + "\t\t持有："
 						+ user.getMoney() + "\t\t折扣：" + user.getlevel() + "\t\t权限：" + admin;
 			}
@@ -76,16 +79,36 @@ public class UserManageMethod {
 		return udb.getAllUser();
 	}
 
-	public void delUserMethod(int userId) {
-		ArrayList<User> list = new ArrayList<User>();
-		list = udb.getAllUser();
-		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getId() == userId) {
-				list.remove(i);
+	// 删除用户方法---1删除成功---2卖家账号---3管理员账号
+	public int delUserMethod(int userId) {
+		ArrayList<User> listUser = new ArrayList<User>();
+		ArrayList<Goods> listGoods = new ArrayList<>();
+		ArrayList<ShopCart> listShopCart = new ArrayList<>();
+		listUser = udb.getAllUser();
+		for (int i = 0; i < listUser.size(); i++) {
+			if (listUser.get(i).getId() == userId) {
+				if (listUser.get(i).getAdmin() == 2) {
+					listGoods = gdb.getAllGoods();
+					for (Goods good : listGoods)
+						if (good.getOwnerId() == userId)
+							return 2;
+				}
+				if (listUser.get(i).getAdmin() == 3)
+					return 3;
+				listUser.remove(i);
 				break;
 			}
 		}
-		udb.setAllUser(list);
+		udb.setAllUser(listUser);
+		listShopCart = scdb.getAllShopCar();
+		for (int i = 0; i < listShopCart.size(); i++) {
+			if (listShopCart.get(i).getBuyerId() == userId) {
+				listShopCart.remove(i);
+				i--;
+			}
+		}
+		scdb.setAllShopCar(listShopCart);
+		return 1;
 	}
 
 	public ArrayList<Goods> getGoodsMethod() {
@@ -126,7 +149,7 @@ public class UserManageMethod {
 				if (user.getAdmin() == 2)
 					admin = "卖家";
 				if (user.getAdmin() == 3)
-					admin = "赵日天";
+					admin = "管理员";
 				return "编号：" + user.getId() + "\t用户名：" + user.getUnm() + "\t\t密码：" + user.getPwd() + "\t\t持有："
 						+ user.getMoney() + "\t\t折扣：" + user.getlevel() + "\t\t权限：" + admin;
 			}

@@ -29,6 +29,7 @@ public class Client {
 				cus_b = selleSf.show();
 			if (cus_b == 1)
 				custoSf.show();
+			cus_b = 1;
 		}
 	}
 }

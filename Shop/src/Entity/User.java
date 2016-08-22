@@ -14,6 +14,10 @@ public class User {
 	// 账户权限等级
 	private int admin;
 
+	public User() {
+		super();
+	}
+
 	public User(int id, String unm, String pwd, double money, int level, int admin) {
 		this.id = id;
 		this.unm = unm;

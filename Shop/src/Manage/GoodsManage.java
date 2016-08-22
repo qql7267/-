@@ -4,20 +4,26 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GoodsManage {
-	private GoodsManageMethod gmm = new GoodsManageMethod();
+	// private GoodsManageMethod gmm = new GoodsManageMethod();
+	private GoodsManageDBMethod gmmDB = new GoodsManageDBMethod();
 	private Scanner in = new Scanner(System.in);
 
 	public void selectGoods_Seller() {
+		ArrayList<String> sellerList = new ArrayList<>();
 		ArrayList<String> list = new ArrayList<String>();
-		int[] sellerList = gmm.getList_Seller();
-		for (int i = 0; i < sellerList.length; i++) {
-			if (sellerList[i] != 0)
-				System.out.print((i + 1) + "." + sellerList[i] + "\t");
-			else
-				break;
-		}
+		// int[] sellerList = gmm.getList_Seller();
+		// for (int i = 0; i < sellerList.length; i++) {
+		// if (sellerList[i] != 0)
+		// System.out.print((i + 1) + "." + sellerList[i] + "\t");
+		// else
+		// break;
+		// }
+		sellerList = gmmDB.getList_Seller();
+		for (int i = 0; i < sellerList.size(); i++)
+			System.out.print((i + 1) + "." + sellerList.get(i) + "\t");
 		System.out.print("\n请选择：");
-		list = gmm.selectGoodsMethod_Seller(sellerList[in.nextInt() - 1]);
+		// list = gmm.selectGoodsMethod_Seller(sellerList[in.nextInt() - 1]);
+		list = gmmDB.selectGoodsMethod_Seller(sellerList.get(in.nextInt() - 1));
 		for (String info : list)
 			System.out.println(info);
 		if (list.size() == 0)
@@ -26,13 +32,16 @@ public class GoodsManage {
 
 	public void selectGoods_Category() {
 		ArrayList<String> list = new ArrayList<String>();
-		ArrayList<String> categpryList = gmm.getList_Category();
+		// ArrayList<String> categpryList = gmm.getList_Category();
+		ArrayList<String> categpryList = gmmDB.getList_Category();
 		System.out.println("共有以下几种类别：");
 		for (int i = 0; i < categpryList.size(); i++) {
 			System.out.print((i + 1) + "." + categpryList.get(i) + "\t");
 		}
 		System.out.print("\n请选择：");
-		list = gmm.selectGoodsMethod_Category(categpryList.get(in.nextInt() - 1));
+		// list = gmm.selectGoodsMethod_Category(categpryList.get(in.nextInt() -
+		// 1));
+		list = gmmDB.selectGoodsMethod_Category(categpryList.get(in.nextInt() - 1));
 		for (String info : list)
 			System.out.println(info);
 	}
@@ -41,29 +50,30 @@ public class GoodsManage {
 		ArrayList<String> list = new ArrayList<String>();
 		System.out.print("请输入要查询的部分或全部名称：");
 		String selName = in.next();
-		list = gmm.selectGoodsMethod_Name(selName);
+		// list = gmm.selectGoodsMethod_Name(selName);
+		list = gmmDB.selectGoodsMethod_Name(selName);
 		for (String info : list)
 			System.out.println(info);
 	}
 
 	public String getGoodInfo(int id) {
-		return gmm.getGoodInfoMethod(id);
+		// return gmm.getGoodInfoMethod(id);
+		return gmmDB.getGoodInfoMethod(id);
 	}
 
 	public String getGoodInfo(int id, int ownerId) {
-		return gmm.getGoodInfoMethod(id, ownerId);
+		// return gmm.getGoodInfoMethod(id, ownerId);
+		return gmmDB.getGoodInfoMethod(id, ownerId);
 	}
 
 	public void addGoods(String name, int stock, double price, String category, int ownerId) {
-		gmm.addGoodsMethod(name, stock, price, category, ownerId);
+		// gmm.addGoodsMethod(name, stock, price, category, ownerId);
+		gmmDB.addGoodsMethod(name, stock, price, category, ownerId);
 	}
 
 	public ArrayList<String> selGoods(int ownberId) {
-		return gmm.selGoodMethod(ownberId);
-	}
-
-	public String getGoods(int goodId) {
-		return gmm.getGoodsMethod(goodId);
+		// return gmm.selGoodMethod(ownberId);
+		return gmmDB.selGoodMethod(ownberId);
 	}
 
 	public void chgGoods(int goodId) {
@@ -76,10 +86,12 @@ public class GoodsManage {
 		double price = in.nextDouble();
 		System.out.print("商品类别：");
 		String category = in.next();
-		gmm.chgGoodsMethod(goodId, name, stock, price, category);
+		// gmm.chgGoodsMethod(goodId, name, stock, price, category);
+		gmmDB.chgGoodsMethod(goodId, name, stock, price, category);
 	}
 
 	public void delGoods(int goodId) {
-		gmm.delGoodsMethod(goodId);
+		// gmm.delGoodsMethod(goodId);
+		gmmDB.delGoodsMethod(goodId);
 	}
 }
